@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 const defaultItemValue = {
-  name: '', id: 0
+  title: '', id: 0
 };
 
 export default class SearchableDropDown extends Component {
@@ -72,7 +72,7 @@ export default class SearchableDropDown extends Component {
     let setSort = this.props.setSort;
     if (!setSort && typeof setSort !== 'function') {
         setSort = (item, searchedText) => { 
-          return item.name.toLowerCase().indexOf(searchedText.toLowerCase()) > -1
+          return item?.title.toLowerCase().indexOf(searchedText.toLowerCase()) > -1
         };
     }
     var ac = this.props.items.filter((item) => {
@@ -80,7 +80,7 @@ export default class SearchableDropDown extends Component {
     });
     let item = {
       id: -1,
-      name: searchedText
+      title: searchedText
     };
     this.setState({ listItems: ac, item: item });
     const onTextChange = this.props.onTextChange || this.props.textInputProps.onTextChange || this.props.onChangeText || this.props.textInputProps.onChangeText;
@@ -94,14 +94,14 @@ export default class SearchableDropDown extends Component {
   renderItems = (item, index) => {
     if(this.props.multi && this.props.selectedItems && this.props.selectedItems.length > 0) {
       return (
-          this.props.selectedItems.find(sitem => sitem.id === item.id) 
+          this.props.selectedItems.find(sitem => sitem?.id === item?.id) 
           ? 
           <TouchableOpacity style={{ ...this.props.itemStyle, flex: 1, flexDirection: 'row' }}>
             <View style={{ flex: 0.9, flexDirection: 'row', alignItems: 'flex-start' }}>
-              <Text>{ item.name }</Text>
+              <Text>{ item?.title }</Text>
             </View>
             <View style={{ flex: 0.1, flexDirection: 'row', alignItems: 'flex-end' }}>
-              <TouchableOpacity onPress={() => setTimeout(() => { this.props.onRemoveItem(item, index) }, 0) } style={{ backgroundColor: '#f16d6b', alignItems: 'center', justifyContent: 'center', width: 25, height: 25, borderRadius: 100, marginLeft: 10}}>
+              <TouchableOpacity onPress={() => setTimeout(() => { this.props.onRemoveItem(item, index) }, 0) } style={{ backgroundColor: '#f16d6b', alignItems: 'center', justifyContent: 'center', width: 25, height: 25, borderRadius: 2, marginLeft: 10}}>
                 <Text>X</Text>
               </TouchableOpacity>
             </View>
@@ -116,7 +116,7 @@ export default class SearchableDropDown extends Component {
           }}
           style={{ ...this.props.itemStyle, flex: 1, flexDirection: 'row' }}>
             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-start' }}>
-              <Text>{ item.name }</Text>
+              <Text>{ item?.title }</Text>
             </View>
           </TouchableOpacity>
       )
@@ -137,11 +137,11 @@ export default class SearchableDropDown extends Component {
           }}
         >
           { 
-            this.props.selectedItems && this.props.selectedItems.length > 0 && this.props.selectedItems.find(x => x.id === item.id) 
+            this.props.selectedItems && this.props.selectedItems.length > 0 && this.props.selectedItems.find(x => x.id === item?.id) 
             ?
-              <Text style={{ ...this.props.itemTextStyle }}>{item.name}</Text>
+              <Text style={{ ...this.props.itemTextStyle }}>{item?.title}</Text>
             :
-              <Text style={{ ...this.props.itemTextStyle }}>{item.name}</Text>
+              <Text style={{ ...this.props.itemTextStyle }}>{item?.title}</Text>
           }
         </TouchableOpacity>
       );
@@ -178,7 +178,7 @@ export default class SearchableDropDown extends Component {
       },
       {
         key: 'value',
-        val: this.state.item.name
+        val: this.state.item?.title
       },
       {
         key: 'style',
@@ -227,23 +227,23 @@ export default class SearchableDropDown extends Component {
   };
   renderSelectedItems(){
     let items = this.props.selectedItems;
-    if(items !== undefined && items.length > 0 && this.props.chip && this.props.multi){
+    if(items !== undefined && items?.length > 0 && this.props.chip && this.props.multi){
      return  <View style={{flexDirection: 'row',  flexWrap: 'wrap', paddingBottom: 10, marginTop: 5 }}>
                  { items.map((item, index) => {
                      return (
                          <View key={index} style={{
-                                 width: (item.name.length * 8) + 60,
+                                 width: (item?.title?.length * 8) + 60,
                                  justifyContent: 'center',
                                  flex: 0,
                                  backgroundColor: '#eee',
                                  flexDirection: 'row',
                                  alignItems: 'center',
                                  margin: 5,
-                                 padding: 8,
-                                 borderRadius: 15,
+                                 padding: 10,
+                                 borderRadius: 2,
                              }}>
-                             <Text style={{ color: '#555' }}>{item.name}</Text>
-                             <TouchableOpacity onPress={() => setTimeout(() => { this.props.onRemoveItem(item, index) }, 0) } style={{ backgroundColor: '#f16d6b', alignItems: 'center', justifyContent: 'center', width: 25, height: 25, borderRadius: 100, marginLeft: 10}}>
+                             <Text style={{ color: '#555' }}>{item?.title}</Text>
+                             <TouchableOpacity onPress={() => setTimeout(() => { this.props.onRemoveItem(item, index) }, 10) } style={{ backgroundColor: '#f16d6b', alignItems: 'center', justifyContent: 'center', width: 25, height: 25, borderRadius: 2, marginLeft: 15}}>
                                  <Text>X</Text>
                              </TouchableOpacity>
                          </View>
